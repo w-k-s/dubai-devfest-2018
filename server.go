@@ -1,8 +1,11 @@
 package main
 
 import (
-	// Don't ever write imports like this
-	"fmt"; "io"; "log"; "net/http"; "strings"
+	"fmt"
+	"io"
+	"log"
+	"net/http" 
+	"strings"
 )
 
 func indexHandler(w http.ResponseWriter, req *http.Request) {

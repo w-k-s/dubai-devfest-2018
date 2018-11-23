@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"io/ioutil"
+	"net/http"
 	"time"
 )
 
@@ -11,20 +11,20 @@ import (
 // to get an API key and run the sample
 const API_KEY = ""
 
-func loadWeather(c chan string){
-	resp, err := http.Get("http://api.openweathermap.org/data/2.5/weather?q=dubai&appid="+API_KEY)
-	if err != nil{
+func loadWeather(c chan string) {
+	resp, err := http.Get("http://api.openweathermap.org/data/2.5/weather?q=dubai&appid=" + API_KEY)
+	if err != nil {
 		panic(err)
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
 	c <- string(bytes)
 }
 
-func countSeconds(){
-	for counter := 1;;counter++{
+func countMilliseconds() {
+	for counter := 1; ; counter++ {
 		time.Sleep(1 * time.Millisecond)
 		fmt.Println(counter)
 	}
@@ -33,6 +33,6 @@ func countSeconds(){
 func main() {
 	weatherChannel := make(chan string)
 	go loadWeather(weatherChannel)
-	go countSeconds()
-	fmt.Println(<- weatherChannel)
+	go countMilliseconds()
+	fmt.Println(<-weatherChannel)
 }

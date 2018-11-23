@@ -17,6 +17,8 @@ import (
 // to get an API key and run the sample
 const TMDB_API_KEY = ""
 
+/* -- Network Layer -- */
+
 // A struct used to contain the response of a netwrok request.
 // If the response is successful, response will be stored in data as bytes.
 // If the response fails, the error will be stored in err.
@@ -24,17 +26,6 @@ type NetworkResult struct {
 	statusCode int
 	data       []byte
 	err        error
-}
-
-// A Movie type
-type Movie struct {
-	title      string
-	trailerUrl string
-}
-
-// Represents movie as a string
-func (m Movie) String() string {
-	return fmt.Sprintf("%s : %s", m.title, m.trailerUrl)
 }
 
 // Sends an HTTP GET request asynchronously to the given 'url'.
@@ -60,6 +51,21 @@ func getAsync(url string, nc chan NetworkResult) {
 
 	nc <- NetworkResult{statusCode: resp.StatusCode, data: bytes}
 }
+
+/* -- Model Layer -- */
+
+// A Movie type
+type Movie struct {
+	title      string
+	trailerUrl string
+}
+
+// Represents movie as a string
+func (m Movie) String() string {
+	return fmt.Sprintf("%s : %s", m.title, m.trailerUrl)
+}
+
+/* -- Service Layer -- */
 
 // A structure to contain the result of loading a Movie using 'loadMovie(movieId string, mc chan MovieResult)'
 // If loading movie is successful, the movie field will be set and error will be nil
@@ -135,7 +141,7 @@ func loadMovie(movieId string, mc chan MovieResult) {
 	}
 
 	// parse the bytes as json and map the keys into the structs declared above
-	// We can ignore the errors here, sicne we expect the JSON to be valid
+	// We can ignore the errors here, since we expect the JSON to be valid
 	json.Unmarshal(detailsResult.data, &detail)
 	json.Unmarshal(trailerUrlResult.data, &trailers)
 
@@ -180,6 +186,8 @@ func checkAPIResults(results ...NetworkResult) error {
 	
 	return nil
 }
+
+/* -- Application Layer -- */
 
 func main() {
 	//movie channel
