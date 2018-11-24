@@ -1,3 +1,7 @@
+// Example of a very simple HTTP server
+// Written by: Waqqas Sheikh (https://www.github.com/w-k-s)
+// For: Dubai DevFest 2018 (https://www.meetup.com/en-AU/GDG-Dubai/events/253941428/)
+
 package main
 
 import (
